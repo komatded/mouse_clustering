@@ -1,0 +1,53 @@
+import itertools
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import normalize
+
+
+class TripletGenerator:
+
+    def __init__(self, pad_size: int, positives_per_anchor: int, negatives_per_anchor: int):
+        self.pad_size = pad_size
+        self.positives_per_anchor = positives_per_anchor
+        self.negatives_per_anchor = negatives_per_anchor
+
+    def create_data_generator(self, data: pd.DataFrame, batch_size: int):
+        n_batches = len(data.cookie.unique()) * self.positives_per_anchor * \
+                    (self.positives_per_anchor - 1) * self.negatives_per_anchor // batch_size + 1
+
+        def generator():
+            anchors, positives, negatives = list(), list(), list()
+            while True:
+                for anchor_cookie in data.cookie.unique():
+                    positive_data = data[data.cookie == anchor_cookie]
+                    positive_data = positive_data.sample(n=min(self.positives_per_anchor, len(positive_data)))
+                    positive_data = positive_data.mouse_track.values
+                    negative_data = data[data.cookie != anchor_cookie]
+                    negative_data = negative_data.sample(n=min(self.negatives_per_anchor, len(negative_data)))
+                    negative_data = negative_data.mouse_track.values
+                    for anchor, positive, negative in self._generate_triplets(positive_data, negative_data):
+                        anchors.append(anchor)
+                        positives.append(positive)
+                        negatives.append(negative)
+                        if len(anchors) == batch_size:
+                            yield ([np.array(anchors),
+                                    np.array(positives),
+                                    np.array(negatives)],
+                                   np.ones(len(anchors)))
+                            anchors, positives, negatives = list(), list(), list()
+        return generator(), n_batches
+
+    def _generate_triplets(self, positives, negatives):
+        if len(positives) == 1:
+            for negative in negatives:
+                anchor, positive, negative = self._pad(positives[0]), self._pad(positives[0]), self._pad(negative)
+                yield anchor, positive, negative
+        for anchor, positive in itertools.combinations(positives, 2):
+            anchor, positive = self._pad(anchor), self._pad(positive)
+            for negative in negatives:
+                negative = self._pad(negative)
+                yield anchor, positive, negative
+
+    def _pad(self, array):
+        output = list(array)[:self.pad_size] + [[0, 0, 0]] * (self.pad_size - len(array))
+        return normalize(np.array(output))
