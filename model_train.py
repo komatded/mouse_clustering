@@ -17,7 +17,7 @@ random.seed(420)
 
 print(tf.config.list_physical_devices())
 
-df = pd.read_pickle('../sw-analysis/out/sw_139_data.pickle')
+df = pd.read_pickle('./sw_139_data.pickle')
 df = df[df.mouse_track.apply(len) >= MIN_MOUS_TRACK_LEN]
 cookies = df.cookie.sample(n=N_USERS_TO_TRAIN, random_state=420)
 df = df[df.cookie.isin(cookies)]
