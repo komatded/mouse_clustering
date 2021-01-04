@@ -37,4 +37,4 @@ my_callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{
 
 model.fit(x=train_triplet_generator, steps_per_epoch=train_n_batches,
           validation_data=test_triplet_generator, validation_steps=test_n_batches,
-          epochs=3)
+          epochs=3, callbacks=my_callbacks)
