@@ -14,7 +14,6 @@ NEGATIVES_PER_ANCHOR = 10
 
 random.seed(420)
 
-
 print(tf.config.list_physical_devices())
 
 df = pd.read_pickle('./sw_139_data.pickle')
