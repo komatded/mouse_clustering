@@ -50,4 +50,5 @@ class TripletGenerator:
 
     def _pad(self, array):
         output = list(array)[:self.pad_size] + [[0, 0, 0]] * (self.pad_size - len(array))
-        return normalize(np.array(output))
+        # return normalize(np.array(output))
+        return output
