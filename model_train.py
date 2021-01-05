@@ -11,6 +11,7 @@ EMBEDDING_SIZE = 128
 PAD_SIZE = 200
 POSITIVES_PER_ANCHOR = 15
 NEGATIVES_PER_ANCHOR = 15
+TRAIN_EPOCHS = 10
 
 random.seed(420)
 
@@ -37,4 +38,4 @@ my_callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{
 
 model.fit(x=train_triplet_generator, steps_per_epoch=train_n_batches,
           validation_data=test_triplet_generator, validation_steps=test_n_batches,
-          epochs=3, callbacks=my_callbacks)
+          epochs=TRAIN_EPOCHS, callbacks=my_callbacks)
