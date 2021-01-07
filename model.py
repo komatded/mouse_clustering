@@ -2,7 +2,6 @@ from keras import backend as K
 from keras.models import Model
 from keras.optimizers import Adam
 from keras.layers import LSTM, Dense, Input, BatchNormalization
-from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 
 def identity_loss(y_true, y_pred):
@@ -21,6 +20,7 @@ def create_base_model(input_shape, embedding_size):
     input_layer = Input(shape=input_shape)
     x = BatchNormalization()(input_layer)
     x = LSTM(128, return_sequences=False)(x)  # dropout=0.1, recurrent_dropout=0.1
+    x = Dense(512, activation='relu')(x)
     x = Dense(embedding_size, activation='relu')(x)
     base_network = Model(inputs=input_layer, outputs=x)
     return base_network
