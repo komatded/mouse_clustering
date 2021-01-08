@@ -19,7 +19,7 @@ def bpr_triplet_loss(embedding_anchor, embedding_positive, embedding_negative):
 def create_base_model(input_shape, embedding_size):
     input_layer = Input(shape=input_shape)
     x = BatchNormalization(trainable=True)(input_layer)
-    x = LSTM(256, dropout=0.1, recurrent_dropout=0.1)(x)
+    x = LSTM(128, dropout=0.1, recurrent_dropout=0.1)(x)
     x = Dense(512, activation='relu')(x)
     x = Dense(embedding_size, activation='relu')(x)
     base_network = Model(inputs=input_layer, outputs=x)
