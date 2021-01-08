@@ -31,9 +31,9 @@ class TripletGenerator:
                         positives.append(positive)
                         negatives.append(negative)
                         if len(anchors) == batch_size:
-                            yield ([np.array(anchors)[:, 1 * self.drop_time_line:],
-                                    np.array(positives)[:, 1 * self.drop_time_line:],
-                                    np.array(negatives)[:, 1 * self.drop_time_line:]],
+                            yield ([np.array(anchors)[:, :, 1 * self.drop_time_line:],
+                                    np.array(positives)[:, :, 1 * self.drop_time_line:],
+                                    np.array(negatives)[:, :, 1 * self.drop_time_line:]],
                                    np.ones(len(anchors)))
                             anchors, positives, negatives = list(), list(), list()
         return generator(), n_batches
