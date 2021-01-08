@@ -9,9 +9,10 @@ MIN_MOUSE_TRACK_LEN = 50
 N_USERS_TO_TRAIN = 100
 EMBEDDING_SIZE = 128
 PAD_SIZE = 200
-POSITIVES_PER_ANCHOR = 20
+POSITIVES_PER_ANCHOR = 10
 NEGATIVES_PER_ANCHOR = 20
 TRAIN_EPOCHS = 5
+DROP_TIME_LINE = False
 
 random.seed(420)
 
@@ -25,12 +26,12 @@ train_df, test_df = train_test_split(df, test_size=0.2, random_state=420)
 
 TG = TripletGenerator(pad_size=PAD_SIZE,
                       positives_per_anchor=POSITIVES_PER_ANCHOR,
-                      negatives_per_anchor=NEGATIVES_PER_ANCHOR)
+                      negatives_per_anchor=NEGATIVES_PER_ANCHOR,
+                      drop_time_line=DROP_TIME_LINE)
 train_triplet_generator, train_n_batches = TG.create_data_generator(train_df, batch_size=32)
 test_triplet_generator, test_n_batches = TG.create_data_generator(test_df, batch_size=32)
 
-model = create_model(input_shape=(PAD_SIZE, 3), embedding_size=EMBEDDING_SIZE)
-model.summary()
+model = create_model(input_shape=(PAD_SIZE, 2 + DROP_TIME_LINE), embedding_size=EMBEDDING_SIZE)
 model.layers[3].summary()
 
 my_callbacks = [

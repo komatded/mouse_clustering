@@ -6,10 +6,11 @@ from sklearn.preprocessing import normalize
 
 class TripletGenerator:
 
-    def __init__(self, pad_size: int, positives_per_anchor: int, negatives_per_anchor: int):
+    def __init__(self, pad_size: int, positives_per_anchor: int, negatives_per_anchor: int, drop_time_line: bool):
         self.pad_size = pad_size
         self.positives_per_anchor = positives_per_anchor
         self.negatives_per_anchor = negatives_per_anchor
+        self.drop_time_line = drop_time_line
 
     def create_data_generator(self, data: pd.DataFrame, batch_size: int):
         n_batches = len(data.cookie.unique()) * self.positives_per_anchor * \
@@ -30,9 +31,9 @@ class TripletGenerator:
                         positives.append(positive)
                         negatives.append(negative)
                         if len(anchors) == batch_size:
-                            yield ([np.array(anchors),
-                                    np.array(positives),
-                                    np.array(negatives)],
+                            yield ([np.array(anchors)[:, 1 * self.drop_time_line:],
+                                    np.array(positives)[:, 1 * self.drop_time_line:],
+                                    np.array(negatives)[:, 1 * self.drop_time_line:]],
                                    np.ones(len(anchors)))
                             anchors, positives, negatives = list(), list(), list()
         return generator(), n_batches
