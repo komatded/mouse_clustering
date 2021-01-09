@@ -5,7 +5,7 @@ import tensorflow as tf
 import pandas as pd
 import random
 
-MIN_MOUSE_TRACK_LEN = 50
+MIN_MOUSE_TRACK_LEN = 100
 N_USERS_TO_TRAIN = 100
 EMBEDDING_SIZE = 128
 PAD_SIZE = 200
