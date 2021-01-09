@@ -14,7 +14,7 @@ PAD_SIZE = 200
 POSITIVES_PER_ANCHOR = 10
 NEGATIVES_PER_ANCHOR = 10
 TRAIN_EPOCHS = 5
-DROP_TIME_LINE = True
+DROP_TIME_LINE = False
 
 # Load data
 df = pd.read_pickle('./sw_139_data.pickle')
@@ -23,7 +23,7 @@ df = df[df.mouse_track.apply(len) >= MIN_MOUSE_TRACK_LEN]
 # Filter users to train on
 cookies = df.cookie.value_counts()
 random.seed(420)
-cookies = random.sample(list(cookies[cookies > 1].keys()), k=N_USERS_TO_TRAIN)
+cookies = random.sample(list(cookies[cookies >= POSITIVES_PER_ANCHOR].keys()), k=N_USERS_TO_TRAIN)
 
 # Dataset split
 df = df[df.cookie.isin(cookies)]
