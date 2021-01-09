@@ -8,7 +8,7 @@ print(tf.config.list_physical_devices())
 
 # Training configs
 MIN_MOUSE_TRACK_LEN = 100
-N_USERS_TO_TRAIN = 100
+N_USERS_TO_TRAIN = 500
 EMBEDDING_SIZE = 128
 PAD_SIZE = 200
 POSITIVES_PER_ANCHOR = 10
