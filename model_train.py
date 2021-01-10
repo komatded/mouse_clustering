@@ -33,7 +33,8 @@ train_df, test_df = train_test_split(df, test_size=0.2, random_state=420)
 TG = TripletGenerator(pad_size=PAD_SIZE,
                       positives_per_anchor=POSITIVES_PER_ANCHOR,
                       negatives_per_anchor=NEGATIVES_PER_ANCHOR,
-                      drop_time_line=DROP_TIME_LINE)
+                      drop_time_line=DROP_TIME_LINE,
+                      random_state=420)
 train_triplet_generator, train_n_batches = TG.create_data_generator(train_df, batch_size=32)
 test_triplet_generator, test_n_batches = TG.create_data_generator(test_df, batch_size=32)
 

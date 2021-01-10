@@ -6,11 +6,13 @@ from sklearn.preprocessing import normalize
 
 class TripletGenerator:
 
-    def __init__(self, pad_size: int, positives_per_anchor: int, negatives_per_anchor: int, drop_time_line: bool):
+    def __init__(self, pad_size: int, positives_per_anchor: int, negatives_per_anchor: int, drop_time_line: bool,
+                 random_state=42):
         self.pad_size = pad_size
         self.positives_per_anchor = positives_per_anchor
         self.negatives_per_anchor = negatives_per_anchor
         self.drop_time_line = drop_time_line
+        self.random_state = random_state
 
     def create_data_generator(self, data: pd.DataFrame, batch_size: int):
         n_batches = len(data.cookie.unique()) * self.positives_per_anchor * \
@@ -21,10 +23,12 @@ class TripletGenerator:
             while True:
                 for anchor_cookie in data.cookie.unique():
                     positive_data = data[data.cookie == anchor_cookie]
-                    positive_data = positive_data.sample(n=min(self.positives_per_anchor, len(positive_data)))
+                    positive_data = positive_data.sample(n=min(self.positives_per_anchor, len(positive_data)),
+                                                         random_state=self.random_state)
                     positive_data = positive_data.mouse_track.values
                     negative_data = data[data.cookie != anchor_cookie]
-                    negative_data = negative_data.sample(n=min(self.negatives_per_anchor, len(negative_data)))
+                    negative_data = negative_data.sample(n=min(self.negatives_per_anchor, len(negative_data)),
+                                                         random_state=self.random_state)
                     negative_data = negative_data.mouse_track.values
                     for anchor, positive, negative in self._generate_triplets(positive_data, negative_data):
                         anchors.append(anchor)
