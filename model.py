@@ -18,8 +18,7 @@ def bpr_triplet_loss(embedding_anchor, embedding_positive, embedding_negative):
 
 def create_base_model(input_shape, embedding_size):
     input_layer = Input(shape=input_shape)
-    x = BatchNormalization(trainable=True)(input_layer)
-    x = LSTM(128)(x)
+    x = LSTM(128)(input_layer)
     x = Dense(512, activation='relu')(x)
     x = Dense(embedding_size, activation='relu')(x)
     base_network = Model(inputs=input_layer, outputs=x)
@@ -33,9 +32,13 @@ def create_model(input_shape, embedding_size):
     input_positive = Input(shape=input_shape, name='input_positive')
     input_negative = Input(shape=input_shape, name='input_negative')
 
-    embedding_anchor = base_model([input_anchor])
-    embedding_positive = base_model([input_positive])
-    embedding_negative = base_model([input_negative])
+    input_anchor_norm = BatchNormalization(trainable=True)(input_anchor)
+    input_positive_norm = BatchNormalization(trainable=True)(input_positive)
+    input_negative_norm = BatchNormalization(trainable=True)(input_negative)
+
+    embedding_anchor = base_model([input_anchor_norm])
+    embedding_positive = base_model([input_positive_norm])
+    embedding_negative = base_model([input_negative_norm])
 
     loss = bpr_triplet_loss(embedding_anchor, embedding_positive, embedding_negative)
     model = Model(inputs=[input_anchor, input_positive, input_negative], outputs=loss)
