@@ -40,7 +40,7 @@ test_triplet_generator, test_n_batches = TG.create_data_generator(test_df, batch
 
 # Model training
 model = create_model(input_shape=(PAD_SIZE, 3 - DROP_TIME_LINE), embedding_size=EMBEDDING_SIZE)
-model.layers[3].summary()
+model.layers[6].summary()
 my_callbacks = [
     # tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{val_loss:.2f}.h5'),
     tf.keras.callbacks.TensorBoard(log_dir='./logs')
