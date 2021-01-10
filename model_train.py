@@ -8,12 +8,12 @@ print(tf.config.list_physical_devices())
 
 # Training configs
 MIN_MOUSE_TRACK_LEN = 100
-N_USERS_TO_TRAIN = 500
+N_USERS_TO_TRAIN = 1000
 EMBEDDING_SIZE = 128
 PAD_SIZE = 200
 POSITIVES_PER_ANCHOR = 10
 NEGATIVES_PER_ANCHOR = 10
-TRAIN_EPOCHS = 5
+TRAIN_EPOCHS = 3
 DROP_TIME_LINE = False
 
 # Load data
@@ -42,7 +42,7 @@ test_triplet_generator, test_n_batches = TG.create_data_generator(test_df, batch
 model = create_model(input_shape=(PAD_SIZE, 3 - DROP_TIME_LINE), embedding_size=EMBEDDING_SIZE)
 model.layers[6].summary()
 my_callbacks = [
-    # tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{val_loss:.2f}.h5'),
+    tf.keras.callbacks.ModelCheckpoint(filepath='model_{epoch:02d}.h5'),
     tf.keras.callbacks.TensorBoard(log_dir='./logs')
 ]
 model.fit(x=train_triplet_generator, steps_per_epoch=train_n_batches,
