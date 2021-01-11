@@ -1,7 +1,7 @@
 from keras import backend as K
 from keras.models import Model
 from keras.optimizers import Adam
-from keras.layers import LSTM, Dense, Input, BatchNormalization
+from keras.layers import LSTM, Dense, Input, BatchNormalization, Dropout
 
 
 def identity_loss(y_true, y_pred):
@@ -30,6 +30,7 @@ def create_inner_model_base(input_shape, embedding_size):
     input_layer = Input(shape=input_shape)
     x = BatchNormalization(trainable=True)(input_layer)
     x = Dense(64, activation='relu')(x)
+    x = Dropout(rate=0.2)(x)
     x = Dense(embedding_size, activation='relu')(x)
     base_network = Model(inputs=input_layer, outputs=x)
     return base_network
