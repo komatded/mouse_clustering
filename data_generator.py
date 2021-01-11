@@ -94,10 +94,6 @@ class TripletGeneratorBase:
 
     @staticmethod
     def _generate_triplets(positives, negatives):
-        if len(positives) == 1:
-            for negative in negatives:
-                anchor, positive, negative = positives[0], positives[0], negative
-                yield anchor, positive, negative
         for anchor, positive in itertools.combinations(positives, 2):
             for negative in negatives:
                 yield anchor, positive, negative
