@@ -9,8 +9,8 @@ print(tf.config.list_physical_devices())
 # Training configs
 N_USERS_TO_TRAIN = 2000
 EMBEDDING_SIZE = 64
-POSITIVES_PER_ANCHOR = 20
-NEGATIVES_PER_ANCHOR = 20
+POSITIVES_PER_ANCHOR = 5
+NEGATIVES_PER_ANCHOR = 5
 TRAIN_EPOCHS = 5
 
 # Load data
