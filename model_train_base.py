@@ -7,7 +7,7 @@ import random
 print(tf.config.list_physical_devices())
 
 # Training configs
-N_USERS_TO_TRAIN = 500
+N_USERS_TO_TRAIN = 1000
 EMBEDDING_SIZE = 128
 POSITIVES_PER_ANCHOR = 10
 NEGATIVES_PER_ANCHOR = 10
@@ -36,8 +36,8 @@ test_triplet_generator, test_n_batches = TG.create_data_generator(test_df, batch
 model = create_model_base(input_shape=(25), embedding_size=EMBEDDING_SIZE)
 model.layers[3].summary()
 my_callbacks = [
-    # tf.keras.callbacks.ModelCheckpoint(filepath='model_{epoch:02d}.h5'),
-    # tf.keras.callbacks.TensorBoard(log_dir='./logs')
+    tf.keras.callbacks.ModelCheckpoint(filepath='model_{epoch:02d}.h5'),
+    tf.keras.callbacks.TensorBoard(log_dir='./logs')
 ]
 model.fit(x=train_triplet_generator, steps_per_epoch=train_n_batches,
           validation_data=test_triplet_generator, validation_steps=test_n_batches,

@@ -29,7 +29,7 @@ def create_inner_model(input_shape, embedding_size):
 def create_inner_model_base(input_shape, embedding_size):
     input_layer = Input(shape=input_shape)
     x = BatchNormalization(trainable=True)(input_layer)
-    x = Dense(64, activation='relu')(x)
+    x = Dense(32, activation='relu')(x)
     x = Dense(embedding_size, activation='relu')(x)
     base_network = Model(inputs=input_layer, outputs=x)
     return base_network
