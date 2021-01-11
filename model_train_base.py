@@ -9,9 +9,9 @@ print(tf.config.list_physical_devices())
 # Training configs
 N_USERS_TO_TRAIN = 1000
 EMBEDDING_SIZE = 64
-POSITIVES_PER_ANCHOR = 10
-NEGATIVES_PER_ANCHOR = 10
-TRAIN_EPOCHS = 3
+POSITIVES_PER_ANCHOR = 20
+NEGATIVES_PER_ANCHOR = 20
+TRAIN_EPOCHS = 5
 
 # Load data
 df = pd.read_pickle('./sw_139_baseline_features.pickle')
