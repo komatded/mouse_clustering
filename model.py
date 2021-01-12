@@ -28,7 +28,7 @@ def create_inner_model(input_shape, embedding_size):
 
 def create_inner_model_base(input_shape, embedding_size):
     input_layer = Input(shape=input_shape)
-    x = BatchNormalization(trainable=True)(input_layer)
+    x = BatchNormalization(trainable=False)(input_layer)
     x = Dense(16, activation='relu')(x)
     x = Dropout(rate=0.5)(x)
     x = Dense(embedding_size, activation='relu')(x)
