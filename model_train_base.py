@@ -18,8 +18,8 @@ df = pd.read_pickle('./sw_139_baseline_features.pickle')
 
 # Filter users to train on
 cookies = df.cookie.value_counts()
+cookies = list(cookies[cookies >= POSITIVES_PER_ANCHOR].keys())
 random.seed(420)
-cookies = list(cookies[cookies >= 2].keys())
 cookies = random.sample(cookies, k=min(N_USERS_TO_TRAIN, len(cookies)))
 
 # Dataset split
