@@ -31,8 +31,8 @@ def create_inner_model_base(input_shape, embedding_size):
     # x = BatchNormalization(trainable=True)(input_layer)
     # x = Dense(128, activation='relu')(input_layer)
     # x = Dense(32, activation='relu')(x)
-    # x = Dropout(rate=0.5)(x)
-    x = Dense(embedding_size, activation='relu')(input_layer)
+    x = Dropout(rate=0.5)(input_layer)
+    x = Dense(embedding_size, activation='relu')(x)
     base_network = Model(inputs=input_layer, outputs=x)
     return base_network
 
