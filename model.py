@@ -32,7 +32,7 @@ def create_inner_model_base(input_shape, embedding_size):
     # x = Dense(128, activation='relu')(input_layer)
     # x = Dense(32, activation='relu')(x)
     # x = Dropout(rate=0.5)(x)
-    x = Dense(embedding_size, activation='relu')(x)
+    x = Dense(embedding_size, activation='relu')(input_layer)
     base_network = Model(inputs=input_layer, outputs=x)
     return base_network
 
