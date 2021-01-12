@@ -7,7 +7,7 @@ import random
 print(tf.config.list_physical_devices())
 
 # Training configs
-N_USERS_TO_TRAIN = 5000
+N_USERS_TO_TRAIN = 10000
 EMBEDDING_SIZE = 64
 POSITIVES_PER_ANCHOR = 5
 NEGATIVES_PER_ANCHOR = 5
