@@ -14,7 +14,7 @@ NEGATIVES_PER_ANCHOR = 5
 TRAIN_EPOCHS = 10
 
 # Load data
-df = pd.read_pickle('./sw_139_baseline_features.pickle')
+df = pd.read_pickle('./sw_139_baseline_features_norm.pickle')
 
 # Filter users to train on
 cookies = df.cookie.value_counts()

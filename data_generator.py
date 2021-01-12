@@ -86,7 +86,7 @@ class TripletGeneratorBase:
                         positives.append(positive)
                         negatives.append(negative)
                         if len(anchors) == batch_size:
-                            anchors_norm, positives_norm, negatives_norm = normalize(anchors), normalize(positives), normalize(negatives)
+                            # anchors_norm, positives_norm, negatives_norm = normalize(anchors), normalize(positives), normalize(negatives)
                             yield ([np.array(anchors_norm),
                                     np.array(positives_norm),
                                     np.array(negatives_norm)],
