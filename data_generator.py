@@ -88,8 +88,8 @@ class TripletGeneratorBase:
                         if len(anchors) == batch_size:
                             yield (normalize([np.array(anchors),
                                     np.array(positives),
-                                    np.array(negatives)],
-                                   np.ones(len(anchors))))
+                                    np.array(negatives)]),
+                                   np.ones(len(anchors)))
                             anchors, positives, negatives = list(), list(), list()
         return generator(), n_batches
 
