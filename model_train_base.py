@@ -7,11 +7,11 @@ import random
 print(tf.config.list_physical_devices())
 
 # Training configs
-N_USERS_TO_TRAIN = 5000
+N_USERS_TO_TRAIN = 10000
 EMBEDDING_SIZE = 32
 POSITIVES_PER_ANCHOR = 5
 NEGATIVES_PER_ANCHOR = 5
-TRAIN_EPOCHS = 10
+TRAIN_EPOCHS = 5
 
 # Load data
 df = pd.read_pickle('./sw_139_baseline_features_norm.pickle')
