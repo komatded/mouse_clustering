@@ -86,10 +86,10 @@ class TripletGeneratorBase:
                         positives.append(positive)
                         negatives.append(negative)
                         if len(anchors) == batch_size:
-                            yield ([np.array(anchors),
+                            yield (normalize([np.array(anchors),
                                     np.array(positives),
                                     np.array(negatives)],
-                                   np.ones(len(anchors)))
+                                   np.ones(len(anchors))))
                             anchors, positives, negatives = list(), list(), list()
         return generator(), n_batches
 
@@ -97,4 +97,4 @@ class TripletGeneratorBase:
     def _generate_triplets(positives, negatives):
         for anchor, positive in itertools.combinations(positives, 2):
             for negative in negatives:
-                yield normalize(anchor), normalize(positive), normalize(negative)
+                yield anchor, positive, negative
