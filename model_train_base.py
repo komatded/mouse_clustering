@@ -11,7 +11,7 @@ N_USERS_TO_TRAIN = 5000
 EMBEDDING_SIZE = 64
 POSITIVES_PER_ANCHOR = 5
 NEGATIVES_PER_ANCHOR = 5
-TRAIN_EPOCHS = 5
+TRAIN_EPOCHS = 10
 
 # Load data
 df = pd.read_pickle('./sw_139_baseline_features.pickle')
@@ -19,7 +19,8 @@ df = pd.read_pickle('./sw_139_baseline_features.pickle')
 # Filter users to train on
 cookies = df.cookie.value_counts()
 random.seed(420)
-cookies = random.sample(list(cookies[cookies > 1].keys()), k=N_USERS_TO_TRAIN)
+cookies = list(cookies[cookies >= POSITIVES_PER_ANCHOR].keys())
+cookies = random.sample(cookies, k=min(N_USERS_TO_TRAIN, len(cookies)))
 
 # Dataset split
 df = df[df.cookie.isin(cookies)]
@@ -36,7 +37,7 @@ test_triplet_generator, test_n_batches = TG.create_data_generator(test_df, batch
 model = create_model_base(input_shape=(25), embedding_size=EMBEDDING_SIZE)
 model.layers[3].summary()
 my_callbacks = [
-    # tf.keras.callbacks.ModelCheckpoint(filepath='model_{epoch:02d}.h5'),
+    tf.keras.callbacks.ModelCheckpoint(filepath='model_{epoch:02d}.h5'),
     tf.keras.callbacks.TensorBoard(log_dir='./logs')
 ]
 model.fit(x=train_triplet_generator, steps_per_epoch=train_n_batches,
